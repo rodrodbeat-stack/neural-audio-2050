@@ -3,7 +3,8 @@ const tracks = [
  {title:'Industrial Night',artist:'Dark Factory',album:'Industrial Vol. 2',genre:'INDUSTRIAL',duration:'05:21',cover:'industrial',src:'assets/audio/industrial-night.mp3'},
  {title:'Machine Heart',artist:'Reaktor',album:'Biomechanical Vol. 1',genre:'BIOMECHANICAL',duration:'03:48',cover:'machine',src:'assets/audio/machine-heart.mp3'},
  {title:'Lost in the Grid',artist:'Void Signal',album:'Dark Synth Vol. 1',genre:'DARK SYNTH',duration:'06:17',cover:'red',src:'assets/audio/lost-in-the-grid.mp3'},
- {title:'Black Horizon',artist:'The Division',album:'Dark Techno Vol. 1',genre:'DARK TECHNO',duration:'04:55',cover:'space',src:'assets/audio/black-horizon.mp3'}
+ {title:'Black Horizon',artist:'The Division',album:'Dark Techno Vol. 1',genre:'DARK TECHNO',duration:'04:55',cover:'space',src:'assets/audio/black-horizon.mp3'},
+ {title:'Brutal noises',artist:'The Division',album:'Dark Techno Vol. 1',genre:'DARK TECHNO',duration:'04:55',cover:'space',src:'assets/audio/black-horizon.mp3'}
 ];
 const coverArt={city:'linear-gradient(0deg,#070b12aa,#070b1200),url("assets/images/neural-audio-hero.png")',industrial:'linear-gradient(135deg,#171b20,#68645a,#0a1018)',machine:'linear-gradient(135deg,#090e14,#293745,#05070b)',red:'radial-gradient(circle at 50% 40%,#ff263d,#330b17 40%,#05080d 72%)',space:'radial-gradient(circle at 50% 50%,#e5efff,#243448 15%,#080c15 50%,#ff263d 54%,#05080d 58%)'};
 const albums=[{name:'DARK SYNTH',vol:'Vol. 1',genre:'DARK SYNTH',count:'12 TRACKS',time:'48:32',cover:'red',track:3},{name:'INDUSTRIAL',vol:'Vol. 2',genre:'INDUSTRIAL',count:'10 TRACKS',time:'41:16',cover:'industrial',track:1},{name:'CYBERPUNK',vol:'Vol. 3',genre:'CYBERPUNK',count:'14 TRACKS',time:'56:47',cover:'city',track:0},{name:'BIOMECHANICAL',vol:'Vol. 1',genre:'BIOMECHANICAL',count:'11 TRACKS',time:'44:21',cover:'machine',track:2},{name:'DARK TECHNO',vol:'Vol. 1',genre:'DARK TECHNO',count:'13 TRACKS',time:'52:08',cover:'space',track:4}];
