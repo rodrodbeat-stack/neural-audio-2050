@@ -1,21 +1,32 @@
-const tracks = [
- {title:'Neon Shadows',artist:'Synth Core',album:'Cyberpunk Vol. 3',genre:'CYBERPUNK',duration:'04:32',cover:'city',src:'assets/audio/neon-shadows.mp3'},
- {title:'Industrial Night',artist:'Dark Factory',album:'Industrial Vol. 2',genre:'INDUSTRIAL',duration:'05:21',cover:'industrial',src:'assets/audio/industrial-night.mp3'},
- {title:'Machine Heart',artist:'Reaktor',album:'Biomechanical Vol. 1',genre:'BIOMECHANICAL',duration:'03:48',cover:'machine',src:'assets/audio/machine-heart.mp3'},
- {title:'Lost in the Grid',artist:'Void Signal',album:'Dark Synth Vol. 1',genre:'DARK SYNTH',duration:'06:17',cover:'red',src:'assets/audio/lost-in-the-grid.mp3'},
- {title:'Black Horizon',artist:'The Division',album:'Dark Techno Vol. 1',genre:'DARK TECHNO',duration:'04:55',cover:'space',src:'assets/audio/black-horizon.mp3'},
- {title:'Brutal noises',artist:'The Division',album:'Dark Techno Vol. 1',genre:'DARK TECHNO',duration:'04:55',cover:'space',src:'assets/audio/black-horizon.mp3'}
-];
-const coverArt={city:'linear-gradient(0deg,#070b12aa,#070b1200),url("assets/images/neural-audio-hero.png")',industrial:'linear-gradient(135deg,#171b20,#68645a,#0a1018)',machine:'linear-gradient(135deg,#090e14,#293745,#05070b)',red:'radial-gradient(circle at 50% 40%,#ff263d,#330b17 40%,#05080d 72%)',space:'radial-gradient(circle at 50% 50%,#e5efff,#243448 15%,#080c15 50%,#ff263d 54%,#05080d 58%)'};
-const albums=[{name:'DARK SYNTH',vol:'Vol. 1',genre:'DARK SYNTH',count:'12 TRACKS',time:'48:32',cover:'red',track:3},{name:'INDUSTRIAL',vol:'Vol. 2',genre:'INDUSTRIAL',count:'10 TRACKS',time:'41:16',cover:'industrial',track:1},{name:'CYBERPUNK',vol:'Vol. 3',genre:'CYBERPUNK',count:'14 TRACKS',time:'56:47',cover:'city',track:0},{name:'BIOMECHANICAL',vol:'Vol. 1',genre:'BIOMECHANICAL',count:'11 TRACKS',time:'44:21',cover:'machine',track:2},{name:'DARK TECHNO',vol:'Vol. 1',genre:'DARK TECHNO',count:'13 TRACKS',time:'52:08',cover:'space',track:4}];
-const $=id=>document.getElementById(id);let current=0,playing=false,shuffle=false,repeat=false;const audio=$('audio');
-function addLog(message){const p=document.createElement('p');const t=document.createElement('time');t.textContent='T-'+new Date().toLocaleTimeString('es-CL',{hour12:false});const s=document.createElement('span');s.textContent=message;p.append(t,s);$('logs').append(p);while($('logs').children.length>7)$('logs').firstElementChild.remove()}
-function renderAlbums(){$('albumGrid').innerHTML=albums.map(a=>`<article class="album-card"><div class="album-cover" style="background-image:${coverArt[a.cover]}"><button data-track="${a.track}" aria-label="Reproducir ${a.name}">▶</button></div><div class="album-info"><h3>${a.name}</h3><p>${a.vol}</p><span class="tag">› ${a.genre}</span><div class="album-meta">${a.count}　·　${a.time}</div></div></article>`).join('');$('albumGrid').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>loadTrack(Number(b.dataset.track),true)))}
-function renderTracks(){$('trackRows').innerHTML=tracks.map((t,i)=>`<tr data-track="${i}" class="${i===current?'selected':''}"><td>${i+1}</td><td><span class="row-play">${i===current&&playing?'Ⅱ':'▸'}</span><img src="assets/images/neural-audio-hero.png" alt=""><span class="track-name">${t.title}</span></td><td>${t.artist}</td><td>${t.album}</td><td>${t.duration}</td><td>⋮</td></tr>`).join('');$('trackRows').querySelectorAll('tr').forEach(row=>row.addEventListener('click',()=>loadTrack(Number(row.dataset.track),true)))}
-function loadTrack(index,autoplay=false){current=(index+tracks.length)%tracks.length;const t=tracks[current];$('nowTitle').textContent=t.title;$('nowArtist').textContent=t.artist;$('nowAlbum').textContent=t.album;$('playerCover').style.background='';$('playerCover').src='assets/images/neural-audio-hero.png';audio.src=t.src;$('duration').textContent=t.duration;$('currentTime').textContent='00:00';$('seek').value=0;$('audioNote').textContent='Archivo esperado: '+t.src;renderTracks();addLog('TRACK SELECTED: '+t.title);if(autoplay)playAudio()}
-async function playAudio(){if(!audio.src)audio.src=tracks[current].src;try{await audio.play();playing=true;$('play').textContent='Ⅱ';$('promptText').textContent='PLAYBACK ACTIVE';$('audioNote').textContent='REPRODUCIENDO AUDIO LOCAL';addLog('PLAYBACK STARTED')}catch(e){playing=false;$('play').textContent='▶';$('promptText').textContent='ADD MP3 TO /ASSETS/AUDIO';$('audioNote').textContent='Aún no hay MP3. Añade tus archivos a assets/audio/ y revisa README.md.';addLog('AUDIO FILE NOT FOUND — DEMO MODE')}renderTracks()}
-function pauseAudio(){audio.pause();playing=false;$('play').textContent='▶';$('promptText').textContent='PLAYBACK PAUSED';renderTracks()}
-$('play').addEventListener('click',()=>playing?pauseAudio():playAudio());$('next').addEventListener('click',()=>loadTrack(shuffle?Math.floor(Math.random()*tracks.length):current+1,true));$('prev').addEventListener('click',()=>loadTrack(current-1,true));$('shuffle').addEventListener('click',()=>{shuffle=!shuffle;$('shuffle').style.color=shuffle?'var(--red)':'';addLog('SHUFFLE '+(shuffle?'ENABLED':'DISABLED'))});$('repeat').addEventListener('click',()=>{repeat=!repeat;audio.loop=repeat;$('repeat').style.color=repeat?'var(--red)':'';addLog('REPEAT '+(repeat?'ENABLED':'DISABLED'))});$('volume').addEventListener('input',e=>audio.volume=Number(e.target.value));audio.volume=.7;audio.addEventListener('timeupdate',()=>{if(audio.duration){$('seek').value=audio.currentTime/audio.duration*100;$('currentTime').textContent=fmt(audio.currentTime);$('duration').textContent=fmt(audio.duration)}});$('seek').addEventListener('input',e=>{if(audio.duration)audio.currentTime=Number(e.target.value)/100*audio.duration});audio.addEventListener('ended',()=>{if(!repeat)loadTrack(shuffle?Math.floor(Math.random()*tracks.length):current+1,true)});audio.addEventListener('error',()=>{playing=false;$('play').textContent='▶';$('promptText').textContent='WAITING FOR AUDIO FILES';renderTracks()});function fmt(s){if(!Number.isFinite(s))return'00:00';return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}`}
-$('generate').addEventListener('click',()=>{const g=$('genre').value,b=$('bpm').value,i=$('intensity').value,m=$('mood').value;const picks=tracks.filter(t=>t.genre.toLowerCase().includes(g.toLowerCase().replace('dark ','').replace('cyberpunk','cyberpunk')));const chosen=picks.length?picks:tracks.slice(0,3);$('forgeResult').textContent=`PLAYLIST CONFIGURADA: ${g.toUpperCase()} // ${b} BPM // INTENSIDAD ${i.toUpperCase()} // AMBIENTE ${m.toUpperCase()} — ${chosen.length} pistas sugeridas.`;addLog('PLAYLIST FORGED: '+g.toUpperCase()+' / '+i.toUpperCase());$('promptText').textContent='CUSTOM SIGNAL GENERATED';});$('themeToggle').addEventListener('click',()=>document.body.classList.toggle('bright-mode'));document.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));a.classList.add('active')}));
-// Animated synthetic waveform; works even before a real audio file is added.
-const canvas=$('visualizer'),ctx=canvas.getContext('2d');let phase=0;function draw(){const rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;if(canvas.width!==Math.floor(rect.width*dpr)||canvas.height!==Math.floor(rect.height*dpr)){canvas.width=Math.floor(rect.width*dpr);canvas.height=Math.floor(rect.height*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#202c38';ctx.lineWidth=1;for(let y=15;y<h;y+=22){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}const bars=Math.max(28,Math.floor(w/5)),bw=Math.max(1,w/bars-2);for(let n=0;n<bars;n++){let wave=(Math.sin(n*.33+phase)*.27+Math.sin(n*.12-phase*.7)*.23+.5);let amp=(playing?.9:.46)*wave*(.35+Math.abs(Math.sin(n*.18+phase*.4))*.65);let bh=5+amp*(h*.8);ctx.fillStyle=n%9===0?'#ff5263':'#e91f37';ctx.globalAlpha=.55+amp*.45;ctx.fillRect(n*(bw+2),h/2-bh/2,bw,bh)}ctx.globalAlpha=1;phase+=playing?.12:.035;requestAnimationFrame(draw)}renderAlbums();renderTracks();loadTrack(0,false);draw();
+<!-- REPRODUCTOR / VISUALIZADOR -->
+<div class="visualizer-panel">
+    <h3>VISUALIZADOR ///</h3>
+    <canvas id="neural-canvas" width="300" height="90"></canvas>
+</div>
+
+<!-- PANEL DEL GENERADOR / LISTA -->
+<div class="playlist-panel">
+    <button id="generate-playlist-btn" class="btn-generar">▷ GENERAR PLAYLIST</button>
+    <div id="playlist-tracks-container" class="track-list-body">
+        <!-- Las canciones se inyectan dinámicamente aquí -->
+    </div>
+</div>
+
+<!-- CONTROLES DEL REPRODUCTOR -->
+<div class="audio-controls">
+    <span id="current-track-title" class="player-track-title">Neon Shadows</span>
+    <span id="current-track-artist" class="player-track-artist">Synth Core</span>
+    <button id="prev-btn">|◀</button>
+    <button id="play-btn">▶ / ⏸</button>
+    <button id="next-btn">▶|</button>
+</div>
+
+<!-- SECCIÓN CYBER TERMINAL INTERACTIVA -->
+<div class="terminal-panel">
+    <h3>CYBER TERMINAL ///</h3>
+    <div id="cyber-terminal-logs"></div>
+    <div class="terminal-input-line">
+        <span class="terminal-prompt">› </span>
+        <input type="text" id="cyber-terminal-input" placeholder="Inject core command (/help)..." autocomplete="off">
+    </div>
+</div>
