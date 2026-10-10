@@ -21,42 +21,8 @@
     <section class="rail-panel panel visual-panel"><div class="rail-head">VISUALIZADOR <span>///</span></div><canvas id="visualizer" aria-label="Visualizador de audio animado"></canvas><div class="visual-foot"><span>128 KBPS</span><span>STEREO</span><span class="signal-bars">▰▰▰▱</span></div></section>
     <section class="rail-panel panel terminal"><div class="rail-head">CYBER TERMINAL <span>///</span></div><div id="logs" class="logs" aria-live="polite"><p><time>T-00:01:22</time> <span>AUDIO CORE INITIALIZED</span></p><p><time>T-00:01:27</time> <span>TRACK DATABASE LOADED</span></p><p><time>T-00:03:14</time> <span>NEURAL SIGNAL DETECTED</span></p><p><time>T-00:03:16</time> <span>VISUALIZER ONLINE</span></p><p><time>T-00:04:32</time> <span>AWAITING USER INPUT</span></p></div><div class="terminal-prompt">› <span id="promptText">STAY TUNED...</span><b>_</b></div></section>
     <section class="engine panel"><div class="engine-art">◈</div><div><small>AI MUSIC<br>ENGINE</small><strong>v1.0 // READY</strong></div></section>
-</aside>
-
+  </aside>
 </div>
-
-  <footer><span>NEURAL AUDIO <b>2050</b></span><div>ARTE　/　TECNOLOGÍA　/　MÚSICA　/　SIN LÍMITES</div><span>GITHUB　◉　AUDIO CORE</span></footer>
+<footer><span>NEURAL AUDIO <b>2050</b></span><div>ARTE　/　TECNOLOGÍA　/　MÚSICA　/　SIN LÍMITES</div><span>GITHUB　◉　AUDIO CORE</span></footer>
 <script src="js/app.js"></script>
 </body></html>
-<!-- REPRODUCTOR / VISUALIZADOR -->
-<div class="visualizer-panel">
-    <h3>VISUALIZADOR ///</h3>
-    <canvas id="neural-canvas" width="300" height="90"></canvas>
-</div>
-
-<!-- PANEL DEL GENERADOR / LISTA -->
-<div class="playlist-panel">
-    <button id="generate-playlist-btn" class="btn-generar">▷ GENERAR PLAYLIST</button>
-    <div id="playlist-tracks-container" class="track-list-body">
-        <!-- Las canciones se inyectan dinámicamente aquí -->
-    </div>
-</div>
-
-<!-- CONTROLES DEL REPRODUCTOR -->
-<div class="audio-controls">
-    <span id="current-track-title" class="player-track-title">Neon Shadows</span>
-    <span id="current-track-artist" class="player-track-artist">Synth Core</span>
-    <button id="prev-btn">|◀</button>
-    <button id="play-btn">▶ / ⏸</button>
-    <button id="next-btn">▶|</button>
-</div>
-
-<!-- SECCIÓN CYBER TERMINAL INTERACTIVA -->
-<div class="terminal-panel">
-    <h3>CYBER TERMINAL ///</h3>
-    <div id="cyber-terminal-logs"></div>
-    <div class="terminal-input-line">
-        <span class="terminal-prompt">› </span>
-        <input type="text" id="cyber-terminal-input" placeholder="Inject core command (/help)..." autocomplete="off">
-    </div>
-</div>
